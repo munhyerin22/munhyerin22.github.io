@@ -1,18 +1,709 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>mun 포트폴리오</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyerin's Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f7f6f2;
+      --white:    #ffffff;
+      --dark:     #1c1c1c;
+      --mid:      #4a4a4a;
+      --light:    #909090;
+      --border:   #e8e6e0;
+      --pink:     #f5c4cf;
+      --peach:    #fcd9b0;
+      --mint:     #aee8d2;
+      --lavender: #cfc4ef;
+      --blue:     #b8d8f5;
+      --yellow:   #f5e9a8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(247,246,242,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-weight: 800; font-size: 1rem; letter-spacing: -0.03em; text-decoration: none; color: var(--dark); }
+    .nav-links { display: flex; gap: 1.8rem; }
+    .nav-links a { font-size: 0.82rem; font-weight: 500; color: var(--light); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--dark); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 6rem 2rem 4rem;
+      text-align: center;
+    }
+
+    .blobs { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(72px);
+      opacity: 0.55;
+      animation: drift 10s ease-in-out infinite;
+    }
+    .b1 { width: 500px; height: 500px; background: var(--pink);     top: -120px; left: -140px; animation-delay: 0s; }
+    .b2 { width: 400px; height: 400px; background: var(--mint);     bottom: -100px; right: -100px; animation-delay: 2.5s; }
+    .b3 { width: 320px; height: 320px; background: var(--lavender); top: 42%; left: 50%; animation-delay: 5s; }
+    .b4 { width: 260px; height: 260px; background: var(--peach);    top: 20%; right: 5%; animation-delay: 1.5s; }
+
+    @keyframes drift {
+      0%,100% { transform: translateY(0) scale(1); }
+      50%      { transform: translateY(-22px) scale(1.03); }
+    }
+
+    .hero-inner { position: relative; z-index: 1; max-width: 700px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 1.2rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.95);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--mid);
+      margin-bottom: 2rem;
+      font-family: 'DM Mono', monospace;
+    }
+    .badge-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #5bc49a;
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .hero h1 {
+      font-size: clamp(3rem, 9vw, 6rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 1.4rem;
+      background: linear-gradient(130deg, #b07abf 0%, #6fa3d8 45%, #4dbfa0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--mid);
+      line-height: 1.85;
+      max-width: 480px;
+      margin: 0 auto 2rem;
+    }
+
+    /* hero stat chips */
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-bottom: 2.2rem;
+    }
+    .stat-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 1rem;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.9);
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--dark);
+      color: #fff;
+      padding: 0.9rem 2rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.22); }
+    .cta svg { width: 16px; height: 16px; fill: currentColor; }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      font-size: 0.7rem;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.1em;
+      color: var(--light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: bob 2.4s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%,100%{transform:translateX(-50%) translateY(0)}
+      50%{transform:translateX(-50%) translateY(8px)}
+    }
+    .scroll-hint::after { content:''; width:1px; height:36px; background: linear-gradient(to bottom, var(--light), transparent); }
+
+    /* ── SECTION ── */
+    section { padding: 6rem 1.5rem; }
+
+    .sec-head { text-align: center; margin-bottom: 3.5rem; }
+    .sec-label {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 0.6rem;
+    }
+    .sec-title {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    /* ── CARDS ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.8rem;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 2.2rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.28s cubic-bezier(.22,.68,0,1.3), box-shadow 0.28s;
+      border: 1px solid var(--border);
+    }
+    .card::before {
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0;
+      height:5px;
+      border-radius:24px 24px 0 0;
+    }
+    .card:nth-child(1)::before { background: linear-gradient(90deg,var(--pink),var(--peach)); }
+    .card:nth-child(2)::before { background: linear-gradient(90deg,var(--mint),var(--blue)); }
+    .card:nth-child(3)::before { background: linear-gradient(90deg,var(--lavender),var(--pink)); }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.13); }
+
+    /* card header */
+    .card-header { display: flex; align-items: center; gap: 1rem; }
+    .card-icon {
+      width: 52px; height: 52px;
+      border-radius: 16px;
+      display: flex; align-items:center; justify-content:center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+    .card:nth-child(1) .card-icon { background:#fde8ee; }
+    .card:nth-child(2) .card-icon { background:#d8f4ec; }
+    .card:nth-child(3) .card-icon { background:#ebe6f8; }
+
+    .card-head-text {}
+    .card-org {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--light);
+      margin-bottom: 0.2rem;
+    }
+    .card-title {
+      font-size: 1.18rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+
+    /* divider */
+    .card-divider { height: 1px; background: var(--border); }
+
+    /* desc */
+    .card-desc {
+      font-size: 0.91rem;
+      color: var(--mid);
+      line-height: 1.8;
+    }
+
+    /* feature list */
+    .card-features { display: flex; flex-direction: column; gap: 0.55rem; }
+    .feat-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.86rem;
+      color: var(--mid);
+      line-height: 1.5;
+    }
+    .feat-item .fi { flex-shrink: 0; font-size: 1rem; margin-top: 0.05rem; }
+
+    /* tags */
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      padding: 0.28rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.73rem;
+      font-weight: 500;
+      font-family: 'DM Mono', monospace;
+    }
+    .card:nth-child(1) .tag { background:#fde8ee; color:#a0405a; }
+    .card:nth-child(2) .tag { background:#d8f4ec; color:#1e7a56; }
+    .card:nth-child(3) .tag { background:#ebe6f8; color:#5c3cb0; }
+
+    /* card footer */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 0.4rem;
+    }
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--light);
+      transition: color 0.2s;
+    }
+    .card:hover .card-link { color: var(--dark); }
+    .card-link svg { width: 14px; height: 14px; }
+    .card-arrow {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      display: flex; align-items:center; justify-content:center;
+      transition: background 0.2s, border-color 0.2s, transform 0.25s;
+    }
+    .card:hover .card-arrow { background: var(--dark); border-color: var(--dark); transform: rotate(-45deg); }
+    .card-arrow svg { width: 14px; height: 14px; stroke: var(--mid); fill: none; stroke-width: 2; transition: stroke 0.2s; }
+    .card:hover .card-arrow svg { stroke: white; }
+
+    /* ── SKILLS ── */
+    #skills {
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .skills-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-group {
+      background: var(--bg);
+      border-radius: 18px;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+    }
+    .skill-group-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-pill {
+      padding: 0.28rem 0.7rem;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: var(--mid);
+    }
+
+    /* ── ABOUT ── */
+    .about-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: 28px;
+      padding: 3rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      border: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    .about-left { text-align: center; }
+    .avatar {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), var(--lavender));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.4rem;
+      margin: 0 auto 1rem;
+    }
+    .about-name { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.3rem; }
+    .about-role {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--light);
+    }
+    .about-right {}
+    .about-intro {
+      font-size: 0.97rem;
+      color: var(--mid);
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+    }
+    .about-items { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.6rem; }
+    .about-item {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.88rem;
+      color: var(--mid);
+    }
+    .about-item .ai { font-size: 1.1rem; }
+    .gh-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.4rem;
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--mid);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .gh-link:hover { border-color: var(--dark); color: var(--dark); background: var(--bg); }
+    .gh-link svg { width: 15px; height: 15px; fill: currentColor; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.78rem;
+      font-family: 'DM Mono', monospace;
+      color: var(--light);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── ANIM ── */
+    .reveal { opacity:0; transform:translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.on { opacity:1; transform:none; }
+
+    @media (max-width: 640px) {
+      .about-inner { grid-template-columns: 1fr; }
+      .about-left { display: flex; align-items: center; gap: 1rem; text-align: left; }
+      .avatar { margin: 0; width: 70px; height: 70px; font-size: 1.8rem; }
+    }
+  </style>
 </head>
 <body>
-  <h1>My Portfolio</h1>
 
-  <!-- 원하는 프로젝트만 여기에 추가 -->
-  <div>
-    <h2>프로젝트 이름</h2>
-    <p>프로젝트 설명</p>
-    <a href="https://github.com/ansdjfls7942/레포이름">GitHub 보기</a>
-  </div>
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="#">MUN.</a>
+    <div class="nav-links">
+      <a href="#projects">프로젝트</a>
+      <a href="#skills">기술 스택</a>
+      <a href="#about">소개</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="blobs">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div class="blob b3"></div>
+      <div class="blob b4"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Backend Developer · Java / Spring Boot
+      </div>
+      <h1>Hyerin's<br>Portfolio</h1>
+      <p class="hero-sub">
+        실제 서비스를 만드는 경험을 쌓고 있는<br>
+        백엔드 개발자 <strong>문혜린</strong>입니다.
+      </p>
+      <div class="hero-stats">
+        <span class="stat-chip">☕ Java 17</span>
+        <span class="stat-chip">🌱 Spring Boot</span>
+        <span class="stat-chip">🐳 Docker · AWS</span>
+        <span class="stat-chip">💾 MySQL · Redis</span>
+        <span class="stat-chip">📐 도메인 설계</span>
+      </div>
+      <a href="#projects" class="cta">
+        프로젝트 보기
+        <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+      </a>
+    </div>
+    <div class="scroll-hint">scroll</div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="sec-head reveal">
+      <span class="sec-label">✦ Selected Works</span>
+      <h2 class="sec-title">프로젝트</h2>
+    </div>
+    <div class="grid">
+
+      <!-- Card 1 -->
+      <a class="card reveal" href="https://github.com/TeamA3S/A3S-project" target="_blank" rel="noopener">
+        <div class="card-header">
+          <div class="card-icon">🛒</div>
+          <div class="card-head-text">
+            <div class="card-org">TeamA3S</div>
+            <div class="card-title">A3S Hub</div>
+          </div>
+        </div>
+        <div class="card-divider"></div>
+        <p class="card-desc">
+          커머스 결제 & 정기구독 백엔드 시스템 — 정책 설계부터 구현까지
+        </p>
+        <div class="card-features">
+          <div class="feat-item"><span class="fi">📐</span> 멤버십 등급 정책 설계 (NORMAL·VIP·VVIP 포인트 적립률)</div>
+          <div class="feat-item"><span class="fi">🔄</span> 구독 플로우 전체 설계 — 결제 → 구독 생성 → 자동 갱신</div>
+          <div class="feat-item"><span class="fi">🔐</span> JWT 이중 토큰 + RTR 보안, 동시성 제어</div>
+          <div class="feat-item"><span class="fi">🚀</span> GitHub Actions CI/CD + AWS EC2 배포</div>
+        </div>
+        <div class="tags">
+          <span class="tag">Java 17</span>
+          <span class="tag">Spring Boot</span>
+          <span class="tag">JWT</span>
+          <span class="tag">Docker</span>
+          <span class="tag">AWS EC2</span>
+          <span class="tag">MySQL</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-link">
+            GitHub 보기
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </span>
+          <div class="card-arrow">
+            <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 2 -->
+      <a class="card reveal" href="https://github.com/Allday-Project/Allday-Project-Commerce-Backend" target="_blank" rel="noopener">
+        <div class="card-header">
+          <div class="card-icon">🎶</div>
+          <div class="card-head-text">
+            <div class="card-org">Allday-Project</div>
+            <div class="card-title">Allday Commerce Backend</div>
+          </div>
+        </div>
+        <div class="card-divider"></div>
+        <p class="card-desc">
+          굿즈·앨범·이벤트 티켓을 판매하는 커머스 플랫폼 백엔드
+        </p>
+        <div class="card-features">
+          <div class="feat-item"><span class="fi">🎁</span> 굿즈 / 앨범 / 이벤트 티켓 다중 카테고리 상품 관리</div>
+          <div class="feat-item"><span class="fi">📦</span> 주문·결제·배송 흐름 처리</div>
+          <div class="feat-item"><span class="fi">🌱</span> Spring Boot 기반 RESTful API 서버</div>
+        </div>
+        <div class="tags">
+          <span class="tag">Java</span>
+          <span class="tag">Spring Boot</span>
+          <span class="tag">커머스</span>
+          <span class="tag">이벤트 티켓</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-link">
+            GitHub 보기
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </span>
+          <div class="card-arrow">
+            <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 3 -->
+      <a class="card reveal" href="https://github.com/Team3-Final-Project-SNS/Final-project" target="_blank" rel="noopener">
+        <div class="card-header">
+          <div class="card-icon">🍽️</div>
+          <div class="card-head-text">
+            <div class="card-org">Team3-Final-Project-SNS</div>
+            <div class="card-title">한끼팟 — 식사 매칭 플랫폼</div>
+          </div>
+        </div>
+        <div class="card-divider"></div>
+        <p class="card-desc">
+          "혼밥은 줄이고, 연결은 늘리다" — 대학생 식사 매칭 소셜 서비스
+        </p>
+        <div class="card-features">
+          <div class="feat-item"><span class="fi">📐</span> 매칭·노쇼 방지·포인트 예치 정책 전반 설계</div>
+          <div class="feat-item"><span class="fi">⚡</span> Redisson 분산락 기반 선착순 매칭 구현</div>
+          <div class="feat-item"><span class="fi">🛡️</span> 포인트 예치 시스템으로 노쇼 방지 구조화</div>
+          <div class="feat-item"><span class="fi">🏫</span> 학교 이메일 OTP 인증 기반 폐쇄형 커뮤니티</div>
+        </div>
+        <div class="tags">
+          <span class="tag">Java 17</span>
+          <span class="tag">Spring Boot</span>
+          <span class="tag">Redis</span>
+          <span class="tag">Docker</span>
+          <span class="tag">MySQL</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-link">
+            GitHub 보기
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </span>
+          <div class="card-arrow">
+            <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="sec-head reveal">
+      <span class="sec-label">✦ Stack</span>
+      <h2 class="sec-title">기술 스택</h2>
+    </div>
+    <div class="skills-inner">
+      <div class="skills-grid">
+        <div class="skill-group reveal">
+          <div class="skill-group-label">☕ Language & Framework</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Java 17</span>
+            <span class="skill-pill">Spring Boot</span>
+            <span class="skill-pill">Spring Security</span>
+            <span class="skill-pill">JPA / Hibernate</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <div class="skill-group-label">💾 Database & Messaging</div>
+          <div class="skill-pills">
+            <span class="skill-pill">MySQL</span>
+            <span class="skill-pill">Redis</span>
+            <span class="skill-pill">PostgreSQL</span>
+            <span class="skill-pill">H2</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <div class="skill-group-label">🐳 Infra & DevOps</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Docker</span>
+            <span class="skill-pill">AWS EC2</span>
+            <span class="skill-pill">GitHub Actions</span>
+            <span class="skill-pill">Blue/Green 배포</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="sec-head reveal">
+      <span class="sec-label">✦ About</span>
+      <h2 class="sec-title">소개</h2>
+    </div>
+    <div class="about-inner reveal">
+      <div class="about-left">
+        <div class="avatar">🌿</div>
+        <div class="about-name">문혜린</div>
+        <div class="about-role">BACKEND DEVELOPER</div>
+      </div>
+      <div class="about-right">
+        <p class="about-intro">
+          Java와 Spring Boot를 중심으로 백엔드 개발을 공부하고 있습니다.
+          커머스 결제, 구독, 실시간 매칭 등 다양한 도메인의 팀 프로젝트를 통해
+          실제 서비스를 설계하고 구현하는 경험을 쌓아왔습니다.
+        </p>
+        <div class="about-items">
+          <div class="about-item"><span class="ai">📌</span> 팀 협업과 코드 리뷰를 통해 성장하는 개발자</div>
+          <div class="about-item"><span class="ai">💡</span> 문제를 구조적으로 분석하고 해결하는 것을 좋아함</div>
+          <div class="about-item"><span class="ai">🛠️</span> 실제 운영 가능한 서비스를 목표로 개발</div>
+        </div>
+        <a class="gh-link" href="https://github.com/munhyerin22" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.185 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.203 22 16.447 22 12.021 22 6.484 17.522 2 12 2z"/></svg>
+          github.com/munhyerin22
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2025 Hyerin Mun · Built with GitHub Pages 🌿</footer>
+
+  <script>
+    const io = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
 
 </body>
 </html>
